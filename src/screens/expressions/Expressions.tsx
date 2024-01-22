@@ -3,27 +3,31 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Card, IconButton, Text } from 'react-native-paper';
 
 import { getExpressions } from './get-expressions';
+import { appStyles } from '../../appStyles';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ScreenProps } from '../../navigator/types';
 import { ExpressionsType } from '../../types';
 
 const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
   const { language, topic } = route.params;
-  const [expressions, setExpressions] = useState<ExpressionsType>();
+  const [nativeExpressions, setNativeExpressions] = useState<ExpressionsType>();
+  const [foreignExpressions, setForeignExpressions] =
+    useState<ExpressionsType>();
 
   useEffect(() => {
     if (!language || !topic) return;
-    setExpressions(getExpressions(language, topic));
+    setNativeExpressions(getExpressions(language, topic));
+    setForeignExpressions(getExpressions('romanian', topic));
   }, [language, topic]);
 
-  if (!expressions) return <FullScreenLoader />;
+  if (!nativeExpressions || !foreignExpressions) return <FullScreenLoader />;
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.cardContainer}>
-          {Object.keys(expressions).map((expressionKey) => (
-            <Card key={expressionKey} style={styles.card}>
+          {Object.keys(foreignExpressions).map((expressionKey) => (
+            <Card key={expressionKey} style={styles.card} elevation={0}>
               <Card.Content>
                 <View style={styles.cardContent}>
                   <View style={styles.cardRow}>
@@ -31,10 +35,11 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
                       style={{ fontSize: 22, ...styles.cardText }}
                       variant="titleMedium"
                     >
-                      {expressionKey}
+                      {foreignExpressions[expressionKey]}
                     </Text>
                     <IconButton
                       size={24}
+                      iconColor={appStyles.darkIcon}
                       onPress={() => {}}
                       icon="volume-high"
                     />
@@ -43,15 +48,15 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
                     <Text
                       style={{
                         ...styles.cardText,
-                        color: '#374151',
+                        color: appStyles.muted,
                         fontWeight: '400',
                       }}
                       variant="titleMedium"
                     >
-                      {expressions[expressionKey]}
+                      {nativeExpressions[expressionKey]}
                     </Text>
                     <IconButton
-                      iconColor="#9CA3AF"
+                      iconColor={appStyles.mutedIcon}
                       size={24}
                       onPress={() => {}}
                       icon="star"
@@ -69,7 +74,7 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E5E7EB',
+    backgroundColor: appStyles.containerBackground,
     height: '100%',
   },
   cardContainer: {
@@ -89,9 +94,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   card: {
-    backgroundColor: 'white',
+    shadowOpacity: 0,
+    backgroundColor: appStyles.cardBackground,
   },
   cardText: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: 1,
     verticalAlign: 'middle',
   },
 });

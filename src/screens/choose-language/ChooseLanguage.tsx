@@ -3,14 +3,20 @@ import { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 
-import CheckIcon from '../../assets/icons/check.svg';
-import { appStyles } from '../appStyles';
-import { languagesItems } from '../language-items';
-import { ScreenProps } from '../navigator/types';
-import { LanguageContext } from '../providers/LanguageContext';
+import { useChooseLanguageInterval } from './useChooseLanguageInterval';
+import CheckIcon from '../../../assets/icons/check.svg';
+import { appStyles } from '../../appStyles';
+import { languageItems } from '../../language-items';
+import { ScreenProps } from '../../navigator/types';
+import { LanguageContext } from '../../providers/LanguageContext';
 
 const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
   const { language, setLanguage } = useContext(LanguageContext);
+
+  const { chooseLanguageMessage } = useChooseLanguageInterval({
+    languageItems,
+    language,
+  });
 
   return (
     <View style={styles.container}>
@@ -18,12 +24,14 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
       <View>
         <View style={styles.titleContainer}>
           <Text variant="titleLarge" style={styles.title}>
-            {languagesItems.find((item) => item.value === language)
-              ?.chooseMessage ?? 'Choose your language'}
+            {chooseLanguageMessage ??
+              languageItems.find((item) => item.value === language)
+                ?.chooseMessage ??
+              'Choose your language'}
           </Text>
         </View>
         <View style={styles.cardContainer}>
-          {languagesItems.map((item) => (
+          {languageItems.map((item) => (
             <Card
               style={{
                 backgroundColor:
@@ -91,7 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 48,
     marginBottom: 16,
-    backgroundColor: '#15803D',
+    backgroundColor: appStyles.primary,
   },
   container: {
     backgroundColor: appStyles.containerBackground,

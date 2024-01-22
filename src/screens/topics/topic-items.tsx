@@ -25,7 +25,7 @@ export const topicItems: Topic[] = [
   { value: 'greetings', icon: <Greetings /> },
   { value: 'humans', icon: <Humans /> },
   { value: 'purchases', icon: <Purchases /> },
-  { value: 'tansportation', icon: <Transportation /> },
+  { value: 'transportation', icon: <Transportation /> },
   { value: 'time', icon: <Time /> },
   { value: 'healthcare', icon: <HealthCare /> },
   { value: 'politics', icon: <Politics /> },

@@ -14,7 +14,7 @@ export type TopicKey =
   | 'greetings'
   | 'humans'
   | 'purchases'
-  | 'tansportation'
+  | 'transportation'
   | 'time'
   | 'healthcare'
   | 'politics'

@@ -3,7 +3,7 @@ import { Language } from '../../types';
 export const getTopics = (language: Language) => {
   switch (language) {
     case 'english':
-      return require('../../../assets/topics/english.json');
+      return require(`../../../assets/topics/english.json`);
     case 'russian':
       return require('../../../assets/topics/russian.json');
     case 'ukranian':

@@ -5,7 +5,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Appbar, Menu } from 'react-native-paper';
 
 import { appStyles } from '../appStyles';
-import { languagesItems } from '../language-items';
+import { languageItems } from '../language-items';
 import { RootStackParamList } from '../navigator/types';
 import { LanguageContext } from '../providers/LanguageContext';
 
@@ -24,7 +24,7 @@ const AppBar = ({
 }) => {
   const navigation = useNavigation<NavigationProp>();
   const { language } = useContext(LanguageContext);
-  const activeLanguageItem = languagesItems.find(
+  const activeLanguageItem = languageItems.find(
     (item) => item.value === language,
   );
   const [visible, setVisible] = useState(false);
@@ -32,14 +32,7 @@ const AppBar = ({
   const closeMenu = () => setVisible(false);
 
   return (
-    <View
-      style={{
-        shadowColor: 'black',
-        shadowOffset: { width: 4, height: 4 },
-        shadowOpacity: 1,
-        shadowRadius: 4,
-      }}
-    >
+    <View>
       <Appbar.Header style={styles.appBar} elevated>
         {showBackButton && (
           <Appbar.BackAction

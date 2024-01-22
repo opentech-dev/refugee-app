@@ -4,7 +4,7 @@ import English from '../assets/icons/languages/english.svg';
 import Russian from '../assets/icons/languages/russian.svg';
 import Ukranian from '../assets/icons/languages/ukranian.svg';
 
-export const languagesItems: LanguageItem[] = [
+export const languageItems: LanguageItem[] = [
   {
     label: 'English',
     value: 'english',

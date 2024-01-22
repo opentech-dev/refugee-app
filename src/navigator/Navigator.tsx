@@ -5,7 +5,7 @@ import { RootStackParamList } from './types';
 import AppBar from '../components/AppBar';
 import { LanguageContext } from '../providers/LanguageContext';
 import About from '../screens/About';
-import ChooseLanguage from '../screens/ChooseLanguage';
+import ChooseLanguage from '../screens/choose-language/ChooseLanguage';
 import Expressions from '../screens/expressions/Expressions';
 import Topics from '../screens/topics/Topics';
 

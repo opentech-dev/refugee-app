@@ -5,6 +5,7 @@ import { Button, Card, Text } from 'react-native-paper';
 
 import { getTopics } from './get-topics';
 import { topicItems } from './topic-items';
+import { appStyles } from '../../appStyles';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ScreenProps } from '../../navigator/types';
 import { LanguageContext } from '../../providers/LanguageContext';
@@ -59,7 +60,7 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
 };
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: '#E5E7EB' },
+  container: { backgroundColor: appStyles.containerBackground },
   cardContainer: {
     overflow: 'scroll',
     display: 'flex',

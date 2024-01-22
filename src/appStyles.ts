@@ -4,4 +4,8 @@ export const appStyles = {
   cardBackground: '#FFF',
   svgStroke: '#F3F4F6',
   containerBackground: '#E5E7EB',
+  muted: '#374151',
+  mutedIcon: '#9CA3AF',
+  darkIcon: '#374151',
+  activeStarIcon: '#FBBF24',
 };
