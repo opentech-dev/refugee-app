@@ -1,24 +1,19 @@
-import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Card, IconButton, Text } from 'react-native-paper';
 
-import { getExpressions } from './get-expressions';
+import { useGetExpressions } from './useGetExpressions';
+import { usePlayAudioExpression } from './usePlayAudioExpression';
 import { appStyles } from '../../appStyles';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ScreenProps } from '../../navigator/types';
-import { ExpressionsType } from '../../types';
 
 const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
   const { language, topic } = route.params;
-  const [nativeExpressions, setNativeExpressions] = useState<ExpressionsType>();
-  const [foreignExpressions, setForeignExpressions] =
-    useState<ExpressionsType>();
-
-  useEffect(() => {
-    if (!language || !topic) return;
-    setNativeExpressions(getExpressions(language, topic));
-    setForeignExpressions(getExpressions('romanian', topic));
-  }, [language, topic]);
+  const { foreignExpressions, nativeExpressions } = useGetExpressions({
+    language,
+    topic,
+  });
+  const { playingExpression, playAudio } = usePlayAudioExpression();
 
   if (!nativeExpressions || !foreignExpressions) return <FullScreenLoader />;
 
@@ -27,7 +22,17 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
       <ScrollView>
         <View style={styles.cardContainer}>
           {Object.keys(foreignExpressions).map((expressionKey) => (
-            <Card key={expressionKey} style={styles.card} elevation={0}>
+            <Card
+              key={expressionKey}
+              style={{
+                ...styles.card,
+                backgroundColor:
+                  expressionKey === playingExpression
+                    ? appStyles.cardSelectedBackground
+                    : appStyles.cardBackground,
+              }}
+              elevation={0}
+            >
               <Card.Content>
                 <View style={styles.cardContent}>
                   <View style={styles.cardRow}>
@@ -42,6 +47,7 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
                       iconColor={appStyles.darkIcon}
                       onPress={() => {}}
                       icon="volume-high"
+                      onPressOut={() => playAudio(expressionKey)}
                     />
                   </View>
                   <View style={styles.cardRow}>
@@ -95,7 +101,6 @@ const styles = StyleSheet.create({
   },
   card: {
     shadowOpacity: 0,
-    backgroundColor: appStyles.cardBackground,
   },
   cardText: {
     display: 'flex',

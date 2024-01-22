@@ -3013,13 +3013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-env@npm:^1.18.4":
-  version: 1.18.4
-  resolution: "@types/webpack-env@npm:1.18.4"
-  checksum: 3fa77dbff0ed71685404576b0a1cf74587567fe2ee1cfd11d56d6eefcab7a61e4c9ead0eced264e289d2cf0fc74296dbd55ed6c95774fe0fd6264d156c5a59f0
-  languageName: node
-  linkType: hard
-
 "@types/yargs-parser@npm:*":
   version: 21.0.3
   resolution: "@types/yargs-parser@npm:21.0.3"
@@ -5494,6 +5487,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-av@npm:~13.4.1":
+  version: 13.4.1
+  resolution: "expo-av@npm:13.4.1"
+  peerDependencies:
+    expo: "*"
+  checksum: 5c4c62b7e4e2214f6e8bcbe6e141ff5b4b87b02e710da025856a08ba87ad9645659070e954e2926ab4bf1464483cd379d5b5dbd4413033083862bba04b6730dd
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~14.4.2":
   version: 14.4.2
   resolution: "expo-constants@npm:14.4.2"
@@ -7391,12 +7393,13 @@ __metadata:
     "@react-navigation/native": "npm:^6.1.9"
     "@react-navigation/native-stack": "npm:^6.9.17"
     "@types/react": "npm:~18.2.14"
-    "@types/webpack-env": "npm:^1.18.4"
+    babel-plugin-module-resolver: "npm:^5.0.0"
     eslint: "npm:^8.56.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-config-universe: "npm:^12.0.0"
     eslint-plugin-prettier: "npm:^5.0.1"
     expo: "npm:~49.0.15"
+    expo-av: "npm:~13.4.1"
     expo-status-bar: "npm:~1.6.0"
     i18next: "npm:^23.7.16"
     prettier: "npm:^3.1.1"
