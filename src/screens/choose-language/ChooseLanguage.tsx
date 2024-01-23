@@ -69,6 +69,7 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
           ))}
         </View>
       </View>
+      <Button onPress={() => setLanguage('')}>Clear language</Button>
       {language && (
         <Button
           mode="contained"

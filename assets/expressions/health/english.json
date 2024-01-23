@@ -1,1 +1,24 @@
-{}
+{
+  "health_001": "To be on sick leave",
+  "health_002": "To follow a course of treatment",
+  "health_003": "To take a mud bath",
+  "health_004": "Medical certificate",
+  "health_005": "Check pulse / heart rate",
+  "health_006": "Surgical intervention",
+  "health_007": "Hospital room",
+  "health_008": "To follow regime",
+  "health_009": "Dietetic bread",
+  "health_010": "Severe cough",
+  "health_011": "Hypertension / hypotension",
+  "health_012": "To take medication",
+  "health_013": "Acute pain",
+  "health_014": "Ambulance / emergency aid",
+  "health_015": "To feel bad",
+  "health_016": "To lose consciousness",
+  "health_017": "Consultant physician",
+  "health_018": "Pteventorium",
+  "health_019": "Department of intensive therapy / resuscitation",
+  "health_020": "The treatment worked",
+  "health_021": "Prevention of infectious diseases",
+  "health_022": "Pediatric Cabinet for consultation / Children's Hospital"
+}

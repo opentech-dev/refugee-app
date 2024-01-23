@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useContext, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
+import { Card, Text } from 'react-native-paper';
 
 import { getTopics } from './get-topics';
 import { topicItems } from './topic-items';
@@ -14,7 +14,6 @@ import { TopicKey, TopicsType } from '../../types';
 const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
   const { language } = useContext(LanguageContext);
   const [topics, setTopics] = useState<TopicsType>();
-  const { setLanguage } = useContext(LanguageContext);
 
   const handleSelectTopic = (topicKey: TopicKey) => {
     if (!language || !topics) return;
@@ -53,7 +52,6 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
             </Card>
           ))}
         </View>
-        <Button onPress={() => setLanguage('')}>Clear language</Button>
       </ScrollView>
     </View>
   );

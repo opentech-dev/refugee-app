@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
+
+import { appStyles } from '../appStyles';
 
 const FullScreenLoader = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator animating size="large" />
+      <ActivityIndicator animating size="large" color={appStyles.primary} />
     </View>
   );
 };
