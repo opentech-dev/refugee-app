@@ -3,20 +3,23 @@ import { useContext, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
-import { getTopics } from './get-topics';
 import { topicItems } from './topic-items';
 import { appStyles } from '../../appStyles';
 import FullScreenLoader from '../../components/FullScreenLoader';
+import { getTopics } from '../../get-topics';
 import { ScreenProps } from '../../navigator/types';
 import { LanguageContext } from '../../providers/LanguageContext';
+import { TopicContext } from '../../providers/TopicContext';
 import { TopicKey, TopicsType } from '../../types';
 
 const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
   const { language } = useContext(LanguageContext);
+  const { setTopic } = useContext(TopicContext);
   const [topics, setTopics] = useState<TopicsType>();
 
   const handleSelectTopic = (topicKey: TopicKey) => {
     if (!language || !topics) return;
+    setTopic(topicKey);
     navigation.navigate('Expressions', {
       language,
       topic: topicKey,
@@ -25,7 +28,8 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
 
   useEffect(() => {
     if (!language) return;
-    setTopics(getTopics(language));
+    const newTopics = getTopics();
+    setTopics(newTopics[language].topics);
   }, [language]);
 
   if (!topics) return <FullScreenLoader />;

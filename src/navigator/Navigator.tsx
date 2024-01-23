@@ -3,15 +3,19 @@ import { useContext } from 'react';
 
 import { RootStackParamList } from './types';
 import AppBar from '../components/AppBar';
+import { getTopics } from '../get-topics';
 import { LanguageContext } from '../providers/LanguageContext';
+import { TopicContext } from '../providers/TopicContext';
 import About from '../screens/About';
 import ChooseLanguage from '../screens/choose-language/ChooseLanguage';
 import Expressions from '../screens/expressions/Expressions';
 import Topics from '../screens/topics/Topics';
+import { Language, TopicKey } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigator = () => {
   const { language } = useContext(LanguageContext);
+  const { topic } = useContext(TopicContext);
 
   if (language === null) return null;
 
@@ -33,7 +37,11 @@ const Navigator = () => {
           component={Topics}
           options={{
             header: () => (
-              <AppBar title="Topics" showLanguagePicker showMenuButton />
+              <AppBar
+                title={getTopics()[language as Language].topicsTitle}
+                showLanguagePicker
+                showMenuButton
+              />
             ),
           }}
         />
@@ -42,7 +50,13 @@ const Navigator = () => {
           component={Expressions}
           options={{
             header: () => (
-              <AppBar showBackButton showMenuButton title="Usual Expressions" />
+              <AppBar
+                showBackButton
+                showMenuButton
+                title={
+                  getTopics()[language as Language].topics[topic as TopicKey]
+                }
+              />
             ),
           }}
         />
