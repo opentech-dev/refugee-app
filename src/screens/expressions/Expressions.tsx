@@ -1,77 +1,60 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Card, IconButton, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
-import { useGetExpressions } from './useGetExpressions';
-import { usePlayAudioExpression } from './usePlayAudioExpression';
+import ExpressionCard from './ExpressionCard';
+import { useExpressions } from './useExpressions';
+import { useFavoriteExpressions } from './useFavoriteExpressions';
 import { appStyles } from '../../appStyles';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ScreenProps } from '../../navigator/types';
 
 const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
   const { language, topic } = route.params;
-  const { foreignExpressions, nativeExpressions } = useGetExpressions({
+  const { foreignExpressions, nativeExpressions } = useExpressions({
     language,
     topic,
   });
-  const { playingExpression, playAudio } = usePlayAudioExpression();
+  const { favorites, toggleFavorite } = useFavoriteExpressions();
 
-  if (!nativeExpressions || !foreignExpressions) return <FullScreenLoader />;
+  if (!nativeExpressions || !foreignExpressions || !favorites)
+    return <FullScreenLoader />;
+  else if (topic === 'favorites' && !Object.keys(favorites).length) {
+    return <Text>No favorites</Text>;
+  }
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.cardContainer}>
-          {Object.keys(foreignExpressions).map((expressionKey) => (
-            <Card
-              key={expressionKey}
-              style={{
-                ...styles.card,
-                backgroundColor:
-                  expressionKey === playingExpression
-                    ? appStyles.cardSelectedBackground
-                    : appStyles.cardBackground,
-              }}
-              elevation={0}
-            >
-              <Card.Content>
-                <View style={styles.cardContent}>
-                  <View style={styles.cardRow}>
-                    <Text
-                      style={{ fontSize: 22, ...styles.cardText }}
-                      variant="titleMedium"
-                    >
-                      {foreignExpressions[expressionKey]}
-                    </Text>
-                    <IconButton
-                      size={24}
-                      iconColor={appStyles.darkIcon}
-                      onPress={() => {}}
-                      icon="volume-high"
-                      onPressOut={() => playAudio(expressionKey)}
-                    />
-                  </View>
-                  <View style={styles.cardRow}>
-                    <Text
-                      style={{
-                        ...styles.cardText,
-                        color: appStyles.muted,
-                        fontWeight: '400',
-                      }}
-                      variant="titleMedium"
-                    >
-                      {nativeExpressions[expressionKey]}
-                    </Text>
-                    <IconButton
-                      iconColor={appStyles.mutedIcon}
-                      size={24}
-                      onPress={() => {}}
-                      icon="star"
-                    />
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          ))}
+          {topic === 'favorites'
+            ? Object.keys(favorites[language]).map((expressionKey, index) => (
+                <ExpressionCard
+                  toggleFavorite={toggleFavorite}
+                  key={index}
+                  language={language}
+                  foreignValue={favorites[language][expressionKey].foreignValue}
+                  nativeValue={favorites[language][expressionKey].nativeValue}
+                  expressionKey={expressionKey}
+                  isFavorite={Object.prototype.hasOwnProperty.call(
+                    favorites[language] ?? {},
+                    expressionKey,
+                  )}
+                />
+              ))
+            : Object.keys(foreignExpressions).map((expressionKey, index) => (
+                <ExpressionCard
+                  toggleFavorite={toggleFavorite}
+                  key={index}
+                  language={language}
+                  foreignValue={foreignExpressions[expressionKey]}
+                  nativeValue={nativeExpressions[expressionKey]}
+                  expressionKey={expressionKey}
+                  isFavorite={Object.prototype.hasOwnProperty.call(
+                    favorites[language] ?? {},
+                    expressionKey,
+                  )}
+                />
+              ))}
         </View>
       </ScrollView>
     </View>
@@ -90,23 +73,6 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 16,
     flexGrow: 0,
-  },
-  cardContent: {
-    display: 'flex',
-  },
-  cardRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-  card: {
-    shadowOpacity: 0,
-  },
-  cardText: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flex: 1,
-    verticalAlign: 'middle',
   },
 });
 
