@@ -1,10 +1,10 @@
+import { memo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Card, IconButton, Text } from 'react-native-paper';
 
 import { FavoriteExpression } from './useFavoriteExpressions';
-import { usePlayAudioExpression } from './usePlayAudioExpression';
-import { appStyles } from '../../appStyles';
-import { Language } from '../../types';
+import { appStyles, textStyles } from '../../appStyles';
+import { Language, TopicKey } from '../../types';
 
 const ExpressionCard = ({
   language,
@@ -13,6 +13,9 @@ const ExpressionCard = ({
   foreignValue,
   isFavorite,
   toggleFavorite,
+  playAudio,
+  isPlaying,
+  topic,
 }: {
   language: Language;
   foreignValue: string;
@@ -24,18 +27,20 @@ const ExpressionCard = ({
     key: string,
     expression: FavoriteExpression,
   ) => void;
+  isPlaying: boolean;
+  playAudio: (expressionKey: string) => Promise<void>;
+  topic: TopicKey;
 }) => {
-  const { playingExpression, playAudio } = usePlayAudioExpression();
+  const [favorite, setFavorite] = useState(isFavorite);
 
   return (
     <Card
       key={expressionKey}
       style={{
         ...styles.card,
-        backgroundColor:
-          expressionKey === playingExpression
-            ? appStyles.cardSelectedBackground
-            : appStyles.cardBackground,
+        backgroundColor: isPlaying
+          ? appStyles.cardSelectedBackground
+          : appStyles.cardBackground,
       }}
       elevation={0}
     >
@@ -43,43 +48,63 @@ const ExpressionCard = ({
         <View style={styles.cardContent}>
           <View style={styles.cardRow}>
             <Text
-              style={{ fontSize: 22, ...styles.cardText }}
+              style={{ ...textStyles.titleMedium, ...styles.cardText }}
               variant="titleMedium"
             >
               {foreignValue}
             </Text>
-            <IconButton
-              size={24}
-              iconColor={appStyles.darkIcon}
-              onPress={() => {}}
-              icon="volume-high"
-              onPressOut={() => playAudio(expressionKey)}
-            />
+            <View style={{ ...styles.iconWrapper, height: 28, width: 24 }}>
+              <IconButton
+                size={24}
+                iconColor={
+                  isPlaying ? appStyles.activeVolumeIcon : appStyles.muted
+                }
+                onPress={() => {
+                  setTimeout(() => {
+                    playAudio(expressionKey);
+                  }, 100);
+                }}
+                icon="volume-high"
+              />
+            </View>
           </View>
           <View style={styles.cardRow}>
             <Text
               style={{
                 ...styles.cardText,
+                ...textStyles.bodyMedium,
                 color: appStyles.muted,
-                fontWeight: '400',
               }}
               variant="titleMedium"
             >
               {nativeValue}
             </Text>
-            <IconButton
-              iconColor={
-                isFavorite ? appStyles.activeStarIcon : appStyles.mutedIcon
-              }
-              size={24}
-              onPress={() => {
-                toggleFavorite(language, expressionKey, {
-                  nativeValue,
-                  foreignValue,
-                });
+            <View
+              style={{
+                ...styles.iconWrapper,
+                height: 24,
+                width: 24,
               }}
-              icon="star"
-            />
+            >
+              <IconButton
+                iconColor={
+                  favorite ? appStyles.activeStarIcon : appStyles.mutedIcon
+                }
+                size={24}
+                onPress={() => {
+                  if (topic !== 'favorites') {
+                    setTimeout(() => {
+                      setFavorite((prev) => !prev);
+                    }, 100);
+                  }
+                  toggleFavorite(language, expressionKey, {
+                    nativeValue,
+                    foreignValue,
+                  });
+                }}
+                icon="star"
+              />
+            </View>
           </View>
         </View>
       </Card.Content>
@@ -87,14 +112,20 @@ const ExpressionCard = ({
   );
 };
 
+const MemoizedExpressionCard = memo(ExpressionCard, (prev, next) => {
+  return prev.isPlaying === next.isPlaying;
+});
+
 const styles = StyleSheet.create({
   cardContent: {
+    gap: 12,
     display: 'flex',
   },
   cardRow: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    gap: 12,
   },
   card: {
     shadowOpacity: 0,
@@ -105,6 +136,11 @@ const styles = StyleSheet.create({
     flex: 1,
     verticalAlign: 'middle',
   },
+  iconWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
-export default ExpressionCard;
+export { ExpressionCard, MemoizedExpressionCard };

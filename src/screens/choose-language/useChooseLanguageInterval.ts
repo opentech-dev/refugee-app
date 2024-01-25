@@ -26,7 +26,7 @@ export const useChooseLanguageInterval = ({
           setChooseLanguageMessage(languageItems[nextIndex].chooseMessage);
           return nextIndex;
         });
-      }, 2000);
+      }, 1500);
     } else {
       setChooseLanguageMessage(null);
     }

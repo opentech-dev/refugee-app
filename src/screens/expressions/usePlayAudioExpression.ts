@@ -1,33 +1,56 @@
 import { Audio } from 'expo-av';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import { getAudioFile } from './get-audio-file';
 
 export const usePlayAudioExpression = () => {
   const [playingExpression, setPlayingExpression] = useState('');
+  const soundRef = useRef<Audio.Sound | null>(null);
 
-  const playAudio = async (expressionKey: string) => {
+  const stopSound = async () => {
     try {
-      const { sound } = await Audio.Sound.createAsync(
-        getAudioFile(expressionKey),
-      );
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (!status.isLoaded) {
-          if (status.error) {
-            // error playing the file
-          }
-        } else {
-          if (status.didJustFinish && !status.isLooping) {
-            setPlayingExpression('');
-          }
-        }
-      });
-      setPlayingExpression(expressionKey);
-      await sound.playAsync();
-    } catch (error) {
-      console.log(error);
+      if (soundRef.current) {
+        await soundRef.current.stopAsync();
+        await soundRef.current.unloadAsync();
+        soundRef.current = null;
+      }
+    } catch {
+      //
     }
   };
 
-  return { playAudio, playingExpression };
+  const playAudio = async (expressionKey: string) => {
+    try {
+      if (playingExpression === expressionKey) {
+        return;
+      }
+
+      if (soundRef.current) {
+        await stopSound();
+      }
+
+      const { sound } = await Audio.Sound.createAsync(
+        getAudioFile(expressionKey),
+      );
+
+      soundRef.current = sound;
+
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isLoaded && status.didJustFinish && !status.isLooping) {
+          setPlayingExpression('');
+          sound.unloadAsync();
+          soundRef.current = null;
+        }
+      });
+
+      if (sound._loaded) {
+        setPlayingExpression(expressionKey);
+        await sound.playAsync();
+      }
+    } catch {
+      //
+    }
+  };
+
+  return { playAudio, stopSound, playingExpression };
 };

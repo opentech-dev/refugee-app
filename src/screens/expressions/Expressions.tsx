@@ -1,9 +1,10 @@
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
 
-import ExpressionCard from './ExpressionCard';
+import { ExpressionCard, MemoizedExpressionCard } from './ExpressionCard';
 import { useExpressions } from './useExpressions';
 import { useFavoriteExpressions } from './useFavoriteExpressions';
+import { usePlayAudioExpression } from './usePlayAudioExpression';
 import { appStyles } from '../../appStyles';
 import FullScreenLoader from '../../components/FullScreenLoader';
 import { ScreenProps } from '../../navigator/types';
@@ -15,34 +16,45 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
     topic,
   });
   const { favorites, toggleFavorite } = useFavoriteExpressions();
+  const { playingExpression, playAudio, stopSound } = usePlayAudioExpression();
+
+  useEffect(() => {
+    return () => {
+      stopSound();
+    };
+  }, []);
 
   if (!nativeExpressions || !foreignExpressions || !favorites)
     return <FullScreenLoader />;
-  else if (topic === 'favorites' && !Object.keys(favorites).length) {
-    return <Text>No favorites</Text>;
-  }
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.cardContainer}>
           {topic === 'favorites'
-            ? Object.keys(favorites[language]).map((expressionKey, index) => (
-                <ExpressionCard
-                  toggleFavorite={toggleFavorite}
-                  key={index}
-                  language={language}
-                  foreignValue={favorites[language][expressionKey].foreignValue}
-                  nativeValue={favorites[language][expressionKey].nativeValue}
-                  expressionKey={expressionKey}
-                  isFavorite={Object.prototype.hasOwnProperty.call(
-                    favorites[language] ?? {},
-                    expressionKey,
-                  )}
-                />
-              ))
+            ? Object.keys(favorites[language] || {}).map(
+                (expressionKey, index) => (
+                  <ExpressionCard
+                    toggleFavorite={toggleFavorite}
+                    key={index}
+                    language={language}
+                    foreignValue={
+                      favorites[language][expressionKey].foreignValue
+                    }
+                    nativeValue={favorites[language][expressionKey].nativeValue}
+                    expressionKey={expressionKey}
+                    isFavorite={Object.prototype.hasOwnProperty.call(
+                      favorites[language] ?? {},
+                      expressionKey,
+                    )}
+                    isPlaying={expressionKey === playingExpression}
+                    playAudio={playAudio}
+                    topic={topic}
+                  />
+                ),
+              )
             : Object.keys(foreignExpressions).map((expressionKey, index) => (
-                <ExpressionCard
+                <MemoizedExpressionCard
                   toggleFavorite={toggleFavorite}
                   key={index}
                   language={language}
@@ -53,6 +65,9 @@ const Expressions = ({ route }: ScreenProps<'Expressions'>) => {
                     favorites[language] ?? {},
                     expressionKey,
                   )}
+                  isPlaying={expressionKey === playingExpression}
+                  playAudio={playAudio}
+                  topic={topic}
                 />
               ))}
         </View>

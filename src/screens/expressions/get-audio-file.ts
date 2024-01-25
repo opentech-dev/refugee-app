@@ -638,6 +638,14 @@ export const getAudioFile = (expressionKey: string) => {
       return require('audio/politics_036.mp3');
     case 'politics_037':
       return require('audio/politics_037.mp3');
+    case 'politics_038':
+      return require('audio/politics_038.mp3');
+    case 'politics_039':
+      return require('audio/politics_039.mp3');
+    case 'politics_040':
+      return require('audio/politics_040.mp3');
+    case 'politics_041':
+      return require('audio/politics_041.mp3');
 
     ///purchases
     case 'purchases_001':
