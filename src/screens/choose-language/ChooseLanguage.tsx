@@ -69,11 +69,12 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
           ))}
         </View>
       </View>
-      <Button onPress={() => setLanguage('')}>Clear language</Button>
+      {/* <Button onPress={() => setLanguage('')}>Clear language</Button> */}
       {language && (
         <Button
           mode="contained"
           style={styles.continueButton}
+          contentStyle={{ height: 48 }}
           onPress={() => {
             navigation.navigate('Topics');
           }}
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
   continueButton: {
     display: 'flex',
     justifyContent: 'center',
-    height: 48,
     marginBottom: 16,
     backgroundColor: appStyles.primary,
   },

@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useContext, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Appbar, Menu } from 'react-native-paper';
+import { Appbar, IconButton, Menu } from 'react-native-paper';
 
 import { appStyles } from '../appStyles';
 import { languageItems } from '../language-items';
@@ -24,6 +24,8 @@ const AppBar = ({
 }) => {
   const navigation = useNavigation<NavigationProp>();
   const { language } = useContext(LanguageContext);
+  const isArabic = language === 'arabic';
+
   const activeLanguageItem = languageItems.find(
     (item) => item.value === language,
   );
@@ -33,18 +35,37 @@ const AppBar = ({
 
   return (
     <View>
-      <Appbar.Header style={styles.appBar} elevated>
+      <Appbar.Header
+        style={{
+          ...styles.appBar,
+          flexDirection: isArabic ? 'row-reverse' : 'row',
+        }}
+        elevated
+      >
         {showBackButton && (
-          <Appbar.BackAction
+          <IconButton
+            icon={isArabic ? 'arrow-right' : 'arrow-left'}
             iconColor="white"
             onPress={() => navigation.goBack()}
           />
         )}
         <Appbar.Content
-          titleStyle={{ ...styles.title, marginLeft: !showBackButton ? 16 : 0 }}
+          titleStyle={{
+            ...styles.title,
+            marginLeft: !showBackButton && !isArabic ? 16 : 0,
+          }}
+          style={{
+            display: 'flex',
+            flexDirection: isArabic ? 'row-reverse' : 'row',
+          }}
           title={title}
         />
-        <View style={styles.menuIcons}>
+        <View
+          style={{
+            ...styles.menuIcons,
+            flexDirection: isArabic ? 'row-reverse' : 'row',
+          }}
+        >
           {showLanguagePicker && activeLanguageItem && (
             <TouchableOpacity
               onPress={() => navigation.navigate('ChooseLanguage')}
@@ -91,14 +112,14 @@ const AppBar = ({
 const styles = StyleSheet.create({
   appBar: {
     backgroundColor: appStyles.primary,
-    zIndex: 100,
+    display: 'flex',
+    alignItems: 'center',
   },
   title: {
     color: 'white',
   },
   menuIcons: {
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },

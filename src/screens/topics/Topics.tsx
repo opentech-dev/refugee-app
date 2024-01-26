@@ -12,8 +12,14 @@ import { LanguageContext } from '../../providers/LanguageContext';
 import { TopicContext } from '../../providers/TopicContext';
 import { TopicKey, TopicsType } from '../../types';
 
+const shouldFlipIcon = (value: TopicKey) => {
+  return ['purchases', 'healthcare', 'transportation'].includes(value);
+};
+
 const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
   const { language } = useContext(LanguageContext);
+  const isArabic = language === 'arabic';
+
   const { setTopic } = useContext(TopicContext);
   const [topics, setTopics] = useState<TopicsType>();
 
@@ -46,9 +52,30 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
               onPress={() => handleSelectTopic(item.value)}
             >
               <Card.Content>
-                <View style={styles.cardContent}>
-                  {item.icon}
-                  <Text style={styles.text} variant="titleMedium">
+                <View
+                  style={{
+                    ...styles.cardContent,
+                    flexDirection: isArabic ? 'row-reverse' : 'row',
+                  }}
+                >
+                  <View
+                    style={{
+                      transform:
+                        isArabic && shouldFlipIcon(item.value)
+                          ? [{ scaleX: -1 }]
+                          : '',
+                    }}
+                  >
+                    {item.icon}
+                  </View>
+                  <Text
+                    style={{
+                      ...styles.text,
+                      textAlign: isArabic ? 'right' : 'left',
+                      fontWeight: isArabic ? '700' : '600',
+                    }}
+                    variant="titleMedium"
+                  >
                     {topics[item.value]}
                   </Text>
                 </View>
@@ -74,7 +101,6 @@ const styles = StyleSheet.create({
     gap: 16,
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'row',
   },
   card: {
     shadowOpacity: 0,

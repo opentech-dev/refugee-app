@@ -32,6 +32,7 @@ const ExpressionCard = ({
   topic: TopicKey;
 }) => {
   const [favorite, setFavorite] = useState(isFavorite);
+  const isArabic = language === 'arabic';
 
   return (
     <Card
@@ -46,14 +47,30 @@ const ExpressionCard = ({
     >
       <Card.Content>
         <View style={styles.cardContent}>
-          <View style={styles.cardRow}>
+          <View
+            style={{
+              ...styles.cardRow,
+              flexDirection: isArabic ? 'row-reverse' : 'row',
+            }}
+          >
             <Text
-              style={{ ...textStyles.titleMedium, ...styles.cardText }}
+              style={{
+                ...textStyles.titleMedium,
+                ...styles.cardText,
+                textAlign: isArabic ? 'right' : 'left',
+              }}
               variant="titleMedium"
             >
               {foreignValue}
             </Text>
-            <View style={{ ...styles.iconWrapper, height: 28, width: 24 }}>
+            <View
+              style={{
+                ...styles.iconWrapper,
+                height: 28,
+                width: 24,
+                transform: isArabic ? [{ scaleX: -1 }] : '',
+              }}
+            >
               <IconButton
                 size={24}
                 iconColor={
@@ -68,12 +85,18 @@ const ExpressionCard = ({
               />
             </View>
           </View>
-          <View style={styles.cardRow}>
+          <View
+            style={{
+              ...styles.cardRow,
+              flexDirection: isArabic ? 'row-reverse' : 'row',
+            }}
+          >
             <Text
               style={{
                 ...styles.cardText,
                 ...textStyles.bodyMedium,
                 color: appStyles.muted,
+                textAlign: isArabic ? 'right' : 'left',
               }}
               variant="titleMedium"
             >
@@ -124,7 +147,6 @@ const styles = StyleSheet.create({
   cardRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    flexDirection: 'row',
     gap: 12,
   },
   card: {
