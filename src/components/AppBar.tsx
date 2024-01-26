@@ -95,6 +95,7 @@ const AppBar = ({
               }
             >
               <Menu.Item
+                style={{ height: 30 }}
                 onPress={() => {
                   navigation.navigate('About');
                   closeMenu();

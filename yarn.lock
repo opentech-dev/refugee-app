@@ -1920,6 +1920,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo/html-elements@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@expo/html-elements@npm:0.9.1"
+  checksum: f41194341d5e9e9e9ea994244d10342594a6742c49307e7f2e5fb9a8482651c279a3ea7c362aca8930f060985ef58cd6151c7a395911311b676d8170b0934a59
+  languageName: node
+  linkType: hard
+
 "@expo/image-utils@npm:0.3.22":
   version: 0.3.22
   resolution: "@expo/image-utils@npm:0.3.22"
@@ -7396,6 +7403,7 @@ __metadata:
   resolution: "language-app@workspace:."
   dependencies:
     "@babel/core": "npm:^7.20.0"
+    "@expo/html-elements": "npm:^0.9.1"
     "@react-native-async-storage/async-storage": "npm:1.18.2"
     "@react-navigation/native": "npm:^6.1.9"
     "@react-navigation/native-stack": "npm:^6.9.17"
