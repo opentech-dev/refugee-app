@@ -22,6 +22,8 @@ export const usePlayAudioExpression = () => {
   const playAudio = async (expressionKey: string) => {
     try {
       if (playingExpression === expressionKey) {
+        stopSound();
+        setPlayingExpression('');
         return;
       }
 

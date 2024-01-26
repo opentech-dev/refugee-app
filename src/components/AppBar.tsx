@@ -34,79 +34,72 @@ const AppBar = ({
   const closeMenu = () => setVisible(false);
 
   return (
-    <View>
-      <Appbar.Header
+    <Appbar.Header
+      style={{
+        ...styles.appBar,
+        flexDirection: isArabic ? 'row-reverse' : 'row',
+      }}
+    >
+      {showBackButton && (
+        <IconButton
+          icon={isArabic ? 'arrow-right' : 'arrow-left'}
+          iconColor="white"
+          onPress={() => navigation.goBack()}
+        />
+      )}
+      <Appbar.Content
+        titleStyle={{
+          ...styles.title,
+          marginLeft: !showBackButton && !isArabic ? 16 : 0,
+          marginRight: !showBackButton && isArabic ? 16 : 0,
+        }}
         style={{
-          ...styles.appBar,
+          display: 'flex',
           flexDirection: isArabic ? 'row-reverse' : 'row',
         }}
-        elevated
+        title={title}
+      />
+      <View
+        style={{
+          ...styles.menuIcons,
+          flexDirection: isArabic ? 'row-reverse' : 'row',
+        }}
       >
-        {showBackButton && (
-          <IconButton
-            icon={isArabic ? 'arrow-right' : 'arrow-left'}
-            iconColor="white"
-            onPress={() => navigation.goBack()}
-          />
+        {showLanguagePicker && activeLanguageItem && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ChooseLanguage')}
+          >
+            <View style={styles.languageIconWrapper}>
+              {activeLanguageItem.icon}
+            </View>
+          </TouchableOpacity>
         )}
-        <Appbar.Content
-          titleStyle={{
-            ...styles.title,
-            marginLeft: !showBackButton && !isArabic ? 16 : 0,
-          }}
-          style={{
-            display: 'flex',
-            flexDirection: isArabic ? 'row-reverse' : 'row',
-          }}
-          title={title}
-        />
-        <View
-          style={{
-            ...styles.menuIcons,
-            flexDirection: isArabic ? 'row-reverse' : 'row',
-          }}
-        >
-          {showLanguagePicker && activeLanguageItem && (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ChooseLanguage')}
-            >
-              <View
-                style={{
-                  borderRadius: 8,
-                  overflow: 'hidden',
-                }}
-              >
-                {activeLanguageItem.icon}
-              </View>
-            </TouchableOpacity>
-          )}
-          {showMenuButton && (
-            <Menu
-              visible={visible}
-              onDismiss={closeMenu}
-              anchorPosition="bottom"
-              contentStyle={{ backgroundColor: 'white' }}
-              anchor={
-                <Appbar.Action
-                  iconColor="white"
-                  icon="dots-vertical"
-                  onPress={openMenu}
-                />
-              }
-            >
-              <Menu.Item
-                style={{ height: 30 }}
-                onPress={() => {
-                  navigation.navigate('About');
-                  closeMenu();
-                }}
-                title="About"
+        {showMenuButton && (
+          <Menu
+            visible={visible}
+            onDismiss={closeMenu}
+            anchorPosition="bottom"
+            contentStyle={{ backgroundColor: 'white' }}
+            anchor={
+              <Appbar.Action
+                iconColor="white"
+                icon="dots-vertical"
+                onPress={openMenu}
               />
-            </Menu>
-          )}
-        </View>
-      </Appbar.Header>
-    </View>
+            }
+          >
+            <Menu.Item
+              style={{ height: 30 }}
+              onPress={() => {
+                navigation.navigate('About');
+                closeMenu();
+              }}
+              title="About"
+            />
+          </Menu>
+        )}
+      </View>
+    </Appbar.Header>
   );
 };
 
@@ -123,6 +116,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     gap: 8,
+  },
+  languageIconWrapper: {
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 });
 export default AppBar;

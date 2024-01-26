@@ -89,7 +89,7 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
 };
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: appStyles.containerBackground },
+  container: { backgroundColor: appStyles.containerBackground, height: '100%' },
   cardContainer: {
     overflow: 'scroll',
     display: 'flex',

@@ -33,7 +33,9 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
         <View style={styles.cardContainer}>
           {languageItems.map((item) => (
             <Card
+              elevation={0}
               style={{
+                shadowOpacity: 0,
                 backgroundColor:
                   language === item.value
                     ? appStyles.cardSelectedBackground
@@ -74,6 +76,7 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
         <Button
           mode="contained"
           style={styles.continueButton}
+          labelStyle={{ fontSize: 16 }}
           contentStyle={{ height: 48 }}
           onPress={() => {
             navigation.navigate('Topics');
@@ -100,6 +103,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: 16,
+    borderRadius: 12,
     backgroundColor: appStyles.primary,
   },
   container: {
