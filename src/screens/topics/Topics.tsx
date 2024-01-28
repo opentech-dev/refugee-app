@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   text: {
+    color: appStyles.default,
     fontSize: 20,
     flexWrap: 'wrap',
     flexShrink: 1,

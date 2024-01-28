@@ -6,6 +6,7 @@ export type LanguageItem = {
   label: string;
   value: Language;
   chooseMessage: string;
+  continueMessage: string;
   icon: ReactNode;
 };
 

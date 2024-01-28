@@ -1,14 +1,15 @@
 import { A } from '@expo/html-elements';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import AboutLogo from '../../assets/about-logo.svg';
+import { appStyles } from '../appStyles';
 
 const About = () => {
   return (
-    <View style={styles.container}>
-      <Text>
+    <ScrollView style={styles.container}>
+      <Text style={styles.text}>
         Welcome to the UnitySpeak app, dedicated to providing invaluable
         language assistance to refugees in the Republic of Moldova. Our mission
         is to offer an efficient language assistant tool catering to speakers of
@@ -41,13 +42,17 @@ const About = () => {
         <Text style={styles.footerText}>Founded by</Text>
         <AboutLogo />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 24,
+  },
+  text: {
+    fontSize: 16,
+    color: appStyles.default,
   },
   footerContainer: {
     marginTop: 16,
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
   },
   footerText: {
     textAlign: 'right',
+    color: appStyles.default,
   },
   link: {
     color: '#1D4ED8',

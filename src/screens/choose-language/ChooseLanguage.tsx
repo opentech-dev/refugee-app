@@ -20,7 +20,7 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar />
+      <StatusBar style="dark" />
       <View>
         <View style={styles.titleContainer}>
           <Text variant="titleLarge" style={styles.title}>
@@ -60,7 +60,13 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
                     >
                       {item.icon}
                     </View>
-                    <Text style={{ fontSize: 20 }} variant="titleMedium">
+                    <Text
+                      style={{
+                        ...styles.cardText,
+                        fontWeight: item.value === 'arabic' ? '700' : '600',
+                      }}
+                      variant="titleMedium"
+                    >
                       {item.label}
                     </Text>
                   </View>
@@ -76,13 +82,18 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
         <Button
           mode="contained"
           style={styles.continueButton}
-          labelStyle={{ fontSize: 16 }}
+          labelStyle={{
+            fontSize: 16,
+            color: appStyles.white,
+            fontWeight: language === 'arabic' ? '700' : '600',
+          }}
           contentStyle={{ height: 48 }}
           onPress={() => {
             navigation.navigate('Topics');
           }}
         >
-          Continue
+          {languageItems.find((item) => item.value === language)
+            ?.continueMessage ?? 'Continue'}
         </Button>
       )}
     </View>
@@ -98,6 +109,11 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     lineHeight: 28,
+    color: appStyles.default,
+  },
+  cardText: {
+    fontSize: 20,
+    color: appStyles.default,
   },
   continueButton: {
     display: 'flex',

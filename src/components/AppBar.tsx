@@ -90,6 +90,7 @@ const AppBar = ({
           >
             <Menu.Item
               style={{ height: 30 }}
+              titleStyle={{ fontSize: 16, color: appStyles.default }}
               onPress={() => {
                 navigation.navigate('About');
                 closeMenu();
@@ -111,6 +112,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
+    flexGrow: 1,
   },
   menuIcons: {
     display: 'flex',

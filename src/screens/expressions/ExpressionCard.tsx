@@ -57,6 +57,7 @@ const ExpressionCard = ({
               style={{
                 ...textStyles.titleMedium,
                 ...styles.cardText,
+                color: appStyles.default,
                 textAlign: isArabic ? 'right' : 'left',
               }}
               variant="titleMedium"
@@ -141,7 +142,7 @@ const MemoizedExpressionCard = memo(ExpressionCard, (prev, next) => {
 
 const styles = StyleSheet.create({
   cardContent: {
-    gap: 12,
+    gap: 16,
     display: 'flex',
   },
   cardRow: {

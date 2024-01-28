@@ -9,24 +9,29 @@ export const languageItems: LanguageItem[] = [
     label: 'English',
     value: 'english',
     chooseMessage: 'Choose your language',
+    continueMessage: 'Continue',
     icon: <English />,
   },
   {
     label: 'Русский',
     value: 'russian',
     chooseMessage: 'Выберите ваш язык',
+    continueMessage: 'Продолжить',
+
     icon: <Russian />,
   },
   {
     label: 'Українська',
     value: 'ukranian',
     chooseMessage: 'Виберіть свою мову',
+    continueMessage: 'Продовжити',
     icon: <Ukranian />,
   },
   {
     label: 'عَرَبِيّ',
     value: 'arabic',
     chooseMessage: 'اختر لغتك',
+    continueMessage: 'يكمل',
     icon: <Arabic />,
   },
 ];
