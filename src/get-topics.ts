@@ -34,7 +34,7 @@ export const getTopics = (): TopicItems => ({
       transportation: 'Транспортные средства',
       education: 'Образование / Культура и цивилизация',
       fashion: 'Кодекс поведения / Красота, мода',
-      favorites: 'Favorites',
+      favorites: 'Избранное',
       greetings: 'Формы приветствия',
       health: 'Здоровье',
       healthcare: 'Здравоохранение',
@@ -52,7 +52,7 @@ export const getTopics = (): TopicItems => ({
       transportation: 'وسائل النقل',
       education: 'تعليم / الثقافة والحضارة',
       fashion: 'حسن السلوك / الجمال والموضة',
-      favorites: 'Favorites',
+      favorites: 'المفضلة',
       greetings: 'طرق التعارف وتقديم النفس',
       health: 'صحة',
       healthcare: 'الصحة واألمان',
@@ -67,7 +67,7 @@ export const getTopics = (): TopicItems => ({
   ukranian: {
     topicsTitle: 'Tеми',
     topics: {
-      favorites: 'Favorites',
+      favorites: 'Вибране',
       transportation: 'Транспортні засоби',
       education: 'Освіта / Культура та цивілізація',
       fashion: 'Кодекс поведінки / Краса, мода',

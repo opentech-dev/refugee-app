@@ -10,6 +10,7 @@ export const languageItems: LanguageItem[] = [
     value: 'english',
     chooseMessage: 'Choose your language',
     continueMessage: 'Continue',
+    aboutTitle: 'About',
     icon: <English />,
   },
   {
@@ -17,7 +18,7 @@ export const languageItems: LanguageItem[] = [
     value: 'russian',
     chooseMessage: 'Выберите ваш язык',
     continueMessage: 'Продолжить',
-
+    aboutTitle: 'О нас',
     icon: <Russian />,
   },
   {
@@ -25,6 +26,7 @@ export const languageItems: LanguageItem[] = [
     value: 'ukranian',
     chooseMessage: 'Виберіть свою мову',
     continueMessage: 'Продовжити',
+    aboutTitle: 'Про нас',
     icon: <Ukranian />,
   },
   {
@@ -32,6 +34,7 @@ export const languageItems: LanguageItem[] = [
     value: 'arabic',
     chooseMessage: 'اختر لغتك',
     continueMessage: 'يكمل',
+    aboutTitle: 'معلومات عنا',
     icon: <Arabic />,
   },
 ];

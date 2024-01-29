@@ -50,6 +50,7 @@ const AppBar = ({
       <Appbar.Content
         titleStyle={{
           ...styles.title,
+          flexGrow: !isArabic ? 1 : undefined,
           marginLeft: !showBackButton && !isArabic ? 16 : 0,
           marginRight: !showBackButton && isArabic ? 16 : 0,
         }}
@@ -95,7 +96,10 @@ const AppBar = ({
                 navigation.navigate('About');
                 closeMenu();
               }}
-              title="About"
+              title={
+                languageItems.find((item) => item.value === language)
+                  ?.aboutTitle ?? 'About'
+              }
             />
           </Menu>
         )}
@@ -112,7 +116,6 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    flexGrow: 1,
   },
   menuIcons: {
     display: 'flex',

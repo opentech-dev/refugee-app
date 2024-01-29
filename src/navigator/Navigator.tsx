@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { RootStackParamList } from './types';
 import AppBar from '../components/AppBar';
 import { getTopics } from '../get-topics';
+import { languageItems } from '../language-items';
 import { LanguageContext } from '../providers/LanguageContext';
 import { TopicContext } from '../providers/TopicContext';
 import About from '../screens/About';
@@ -64,7 +65,15 @@ const Navigator = () => {
           name="About"
           component={About}
           options={{
-            header: () => <AppBar showBackButton title="About" />,
+            header: () => (
+              <AppBar
+                showBackButton
+                title={
+                  languageItems.find((item) => item.value === language)
+                    ?.aboutTitle ?? 'About'
+                }
+              />
+            ),
           }}
         />
       </Stack.Navigator>
