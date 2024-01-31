@@ -34,7 +34,7 @@ export const languageItems: LanguageItem[] = [
     value: 'arabic',
     chooseMessage: 'اختر لغتك',
     continueMessage: 'يكمل',
-    aboutTitle: 'معلومات عنا',
+    aboutTitle: 'بشأن',
     icon: <Arabic />,
   },
 ];
