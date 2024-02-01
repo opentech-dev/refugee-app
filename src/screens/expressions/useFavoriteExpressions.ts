@@ -17,7 +17,7 @@ type Favorites = {
 const FAVORITES_STORAGE_KEY = 'favorites';
 
 export const useFavoriteExpressions = () => {
-  const [favorites, setFavorites] = useState<Favorites>({} as Favorites);
+  const [favorites, setFavorites] = useState<Favorites | null>(null);
 
   const loadFavorites = async () => {
     try {
@@ -42,6 +42,7 @@ export const useFavoriteExpressions = () => {
     expression: FavoriteExpression,
   ) => {
     setFavorites((prevFavorites) => {
+      if (!prevFavorites) return null;
       const languageFavorites = prevFavorites[language] || {};
 
       if (languageFavorites[key]) {
