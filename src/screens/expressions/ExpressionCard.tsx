@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Card, IconButton, Text } from 'react-native-paper';
 
 import { FavoriteExpression } from './useFavoriteExpressions';
@@ -46,91 +46,100 @@ const ExpressionCard = ({
       elevation={0}
     >
       <Card.Content>
-        <View style={styles.cardContent}>
-          <View
-            style={{
-              ...styles.cardRow,
-              flexDirection: isArabic ? 'row-reverse' : 'row',
-            }}
-          >
-            <Text
-              style={{
-                ...textStyles.titleMedium,
-                ...styles.cardText,
-                color: appStyles.default,
-                textAlign: isArabic ? 'right' : 'left',
-              }}
-              variant="titleMedium"
-            >
-              {foreignValue}
-            </Text>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => {
+            setTimeout(() => {
+              playAudio(expressionKey);
+            }, 100);
+          }}
+        >
+          <View style={styles.cardContent}>
             <View
               style={{
-                ...styles.iconWrapper,
-                height: 28,
-                width: 24,
-                transform: isArabic ? [{ scaleX: -1 }] : '',
+                ...styles.cardRow,
+                flexDirection: isArabic ? 'row-reverse' : 'row',
               }}
             >
-              <IconButton
-                size={24}
-                iconColor={
-                  isPlaying ? appStyles.activeVolumeIcon : appStyles.muted
-                }
-                onPress={() => {
-                  setTimeout(() => {
-                    playAudio(expressionKey);
-                  }, 100);
+              <Text
+                style={{
+                  ...textStyles.titleMedium,
+                  ...styles.cardText,
+                  color: appStyles.default,
+                  textAlign: isArabic ? 'right' : 'left',
                 }}
-                icon="volume-high"
-              />
-            </View>
-          </View>
-          <View
-            style={{
-              ...styles.cardRow,
-              flexDirection: isArabic ? 'row-reverse' : 'row',
-            }}
-          >
-            <Text
-              style={{
-                ...styles.cardText,
-                ...textStyles.bodyMedium,
-                color: appStyles.muted,
-                textAlign: isArabic ? 'right' : 'left',
-              }}
-              variant="titleMedium"
-            >
-              {nativeValue}
-            </Text>
-            <View
-              style={{
-                ...styles.iconWrapper,
-                height: 24,
-                width: 24,
-              }}
-            >
-              <IconButton
-                iconColor={
-                  favorite ? appStyles.activeStarIcon : appStyles.mutedIcon
-                }
-                size={24}
-                onPress={() => {
-                  if (topic !== 'favorites') {
-                    setTimeout(() => {
-                      setFavorite((prev) => !prev);
-                    }, 100);
+                variant="titleMedium"
+              >
+                {foreignValue}
+              </Text>
+              <View
+                style={{
+                  ...styles.iconWrapper,
+                  height: 28,
+                  width: 24,
+                  transform: isArabic ? [{ scaleX: -1 }] : '',
+                }}
+              >
+                <IconButton
+                  size={24}
+                  iconColor={
+                    isPlaying ? appStyles.activeVolumeIcon : appStyles.muted
                   }
-                  toggleFavorite(language, expressionKey, {
-                    nativeValue,
-                    foreignValue,
-                  });
+                  onPress={() => {
+                    setTimeout(() => {
+                      playAudio(expressionKey);
+                    }, 100);
+                  }}
+                  icon="volume-high"
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                ...styles.cardRow,
+                flexDirection: isArabic ? 'row-reverse' : 'row',
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.cardText,
+                  ...textStyles.bodyMedium,
+                  color: appStyles.muted,
+                  textAlign: isArabic ? 'right' : 'left',
                 }}
-                icon="star"
-              />
+                variant="titleMedium"
+              >
+                {nativeValue}
+              </Text>
+              <View
+                style={{
+                  ...styles.iconWrapper,
+                  height: 24,
+                  width: 24,
+                }}
+              >
+                <IconButton
+                  iconColor={
+                    favorite ? appStyles.activeStarIcon : appStyles.mutedIcon
+                  }
+                  size={24}
+                  onPress={() => {
+                    if (topic !== 'favorites') {
+                      setTimeout(() => {
+                        setFavorite((prev) => !prev);
+                      }, 100);
+                    }
+                    toggleFavorite(language, expressionKey, {
+                      nativeValue,
+                      foreignValue,
+                    });
+                  }}
+                  icon="star"
+                />
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Card.Content>
     </Card>
   );
@@ -142,7 +151,7 @@ const MemoizedExpressionCard = memo(ExpressionCard, (prev, next) => {
 
 const styles = StyleSheet.create({
   cardContent: {
-    gap: 16,
+    gap: 24,
     display: 'flex',
   },
   cardRow: {

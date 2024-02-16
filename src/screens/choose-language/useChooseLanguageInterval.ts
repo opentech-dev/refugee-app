@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Animated } from 'react-native';
 
 import { Language, LanguageItem } from '../../types';
 
@@ -13,6 +14,7 @@ export const useChooseLanguageInterval = ({
   const [chooseLanguageMessage, setChooseLanguageMessage] = useState<
     string | null
   >();
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -26,7 +28,7 @@ export const useChooseLanguageInterval = ({
           setChooseLanguageMessage(languageItems[nextIndex].chooseMessage);
           return nextIndex;
         });
-      }, 1500);
+      }, 2800);
     } else {
       setChooseLanguageMessage(null);
     }
@@ -36,5 +38,31 @@ export const useChooseLanguageInterval = ({
     };
   }, [language, currentIndex, languageItems]);
 
-  return { chooseLanguageMessage };
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 700,
+      useNativeDriver: true,
+    }).start(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 700,
+        useNativeDriver: true,
+      }).start(() => {
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: true,
+        }).start(() => {
+          Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 700,
+            useNativeDriver: true,
+          }).start();
+        });
+      });
+    });
+  }, [chooseLanguageMessage]);
+
+  return { chooseLanguageMessage, fadeAnim };
 };

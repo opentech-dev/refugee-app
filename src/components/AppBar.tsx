@@ -68,6 +68,7 @@ const AppBar = ({
       >
         {showLanguagePicker && activeLanguageItem && (
           <TouchableOpacity
+            style={{ opacity: 1 }}
             onPress={() => navigation.navigate('ChooseLanguage')}
           >
             <View style={styles.languageIconWrapper}>

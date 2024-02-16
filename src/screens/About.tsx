@@ -10,7 +10,7 @@ const About = () => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.text}>
-        Welcome to the UnitySpeak app, dedicated to providing invaluable
+        Welcome to the RefugeeSpeak app, dedicated to providing invaluable
         language assistance to refugees in the Republic of Moldova. Our mission
         is to offer an efficient language assistant tool catering to speakers of
         Ukrainian, Russian, English, and Arabic. Developed by the{' '}

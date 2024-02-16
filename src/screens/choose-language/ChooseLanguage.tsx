@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 
 import { useChooseLanguageInterval } from './useChooseLanguageInterval';
@@ -13,7 +13,7 @@ import { LanguageContext } from '../../providers/LanguageContext';
 const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
   const { language, setLanguage } = useContext(LanguageContext);
 
-  const { chooseLanguageMessage } = useChooseLanguageInterval({
+  const { chooseLanguageMessage, fadeAnim } = useChooseLanguageInterval({
     languageItems,
     language,
   });
@@ -23,12 +23,18 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
       <StatusBar style="dark" />
       <View>
         <View style={styles.titleContainer}>
-          <Text variant="titleLarge" style={styles.title}>
+          <Animated.Text
+            style={{
+              ...styles.title,
+              fontSize: 22,
+              opacity: chooseLanguageMessage ? fadeAnim : 1,
+            }}
+          >
             {chooseLanguageMessage ??
               languageItems.find((item) => item.value === language)
                 ?.chooseMessage ??
               'Choose your language'}
-          </Text>
+          </Animated.Text>
         </View>
         <View style={styles.cardContainer}>
           {languageItems.map((item) => (
