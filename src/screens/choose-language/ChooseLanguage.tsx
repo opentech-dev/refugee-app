@@ -1,14 +1,18 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 
+import { replicateFavorites } from './replicateFavorites';
 import { useChooseLanguageInterval } from './useChooseLanguageInterval';
 import CheckIcon from '../../../assets/icons/check.svg';
 import { appStyles } from '../../appStyles';
 import { languageItems } from '../../language-items';
 import { ScreenProps } from '../../navigator/types';
 import { LanguageContext } from '../../providers/LanguageContext';
+import { getAllExpressions } from '../expressions/get-all-expressions';
+import { FAVORITES_STORAGE_KEY } from '../expressions/useFavoriteExpressions';
 
 const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
   const { language, setLanguage } = useContext(LanguageContext);
@@ -17,6 +21,37 @@ const ChooseLanguage = ({ navigation }: ScreenProps<'ChooseLanguage'>) => {
     languageItems,
     language,
   });
+
+  useEffect(() => {
+    const replicateFavoritesForNewLanguage = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem(FAVORITES_STORAGE_KEY);
+        const favorites = jsonValue != null ? JSON.parse(jsonValue) : {};
+
+        const allNewLanguageExpressions = getAllExpressions(language);
+        const allForeignExpressions = getAllExpressions('romanian');
+
+        if (!allNewLanguageExpressions) return;
+        if (!allForeignExpressions) return;
+
+        const replicatedFavorites = replicateFavorites(
+          language,
+          favorites,
+          allForeignExpressions,
+          allNewLanguageExpressions,
+        );
+
+        await AsyncStorage.setItem(
+          FAVORITES_STORAGE_KEY,
+          JSON.stringify(replicatedFavorites),
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    replicateFavoritesForNewLanguage();
+  }, [language]);
 
   return (
     <View style={styles.container}>

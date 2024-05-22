@@ -14,7 +14,7 @@ type Favorites = {
   };
 };
 
-const FAVORITES_STORAGE_KEY = 'favorites';
+export const FAVORITES_STORAGE_KEY = 'favorites';
 
 export const useFavoriteExpressions = () => {
   const [favorites, setFavorites] = useState<Favorites | null>(null);
@@ -43,23 +43,35 @@ export const useFavoriteExpressions = () => {
   ) => {
     setFavorites((prevFavorites) => {
       if (!prevFavorites) return null;
-      const languageFavorites = prevFavorites[language] || {};
 
-      if (languageFavorites[key]) {
-        delete languageFavorites[key];
+      const isFavorite = prevFavorites[language]?.[key];
+
+      // eslint-disable-next-line
+      let updatedFavorites: any;
+      if (isFavorite) {
+        updatedFavorites = Object.keys(prevFavorites).reduce(
+          // eslint-disable-next-line
+          (acc: any, lang) => {
+            const { [key]: _, ...rest } = prevFavorites[lang as Language];
+            acc[lang] = rest;
+            return acc;
+          },
+          {},
+        );
       } else {
-        languageFavorites[key] = expression;
+        updatedFavorites = {
+          ...prevFavorites,
+          [language]: {
+            ...prevFavorites[language],
+            [key]: expression,
+          },
+        };
       }
 
-      const newFavorites = {
-        ...prevFavorites,
-        [language]: { ...languageFavorites },
-      };
-
-      const jsonValue = JSON.stringify(newFavorites);
+      const jsonValue = JSON.stringify(updatedFavorites);
       AsyncStorage.setItem(FAVORITES_STORAGE_KEY, jsonValue);
 
-      return newFavorites;
+      return updatedFavorites;
     });
   };
 
