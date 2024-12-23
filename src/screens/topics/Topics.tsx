@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useContext, useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native-paper';
 
 import { topicItems } from './topic-items';
 import { appStyles } from '../../appStyles';
@@ -42,47 +42,26 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <ScrollView>
-        <View style={styles.cardContainer}>
-          {topicItems.map((item) => (
-            <Card
-              elevation={0}
-              key={item.value}
-              style={styles.card}
-              onPress={() => handleSelectTopic(item.value)}
-            >
-              <Card.Content>
-                <View
-                  style={{
-                    ...styles.cardContent,
-                    flexDirection: isArabic ? 'row-reverse' : 'row',
-                  }}
-                >
-                  <View
-                    style={{
-                      transform:
-                        isArabic && shouldFlipIcon(item.value)
-                          ? [{ scaleX: -1 }]
-                          : '',
-                    }}
-                  >
-                    {item.icon}
-                  </View>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      textAlign: isArabic ? 'right' : 'left',
-                      fontWeight: isArabic ? '700' : '600',
-                    }}
-                    variant="titleMedium"
-                  >
-                    {topics[item.value]}
-                  </Text>
-                </View>
-              </Card.Content>
-            </Card>
-          ))}
-        </View>
+      <ScrollView contentContainerStyle={styles.gridContainer}>
+        {topicItems.map((item) => (
+          <View key={item.value} style={styles.gridItem}>
+            <TouchableOpacity onPress={() => handleSelectTopic(item.value)}>
+              <View style={styles.imageContainer}>
+                {item.icon}
+              </View>
+              <Text
+                style={{
+                  ...styles.text,
+                  textAlign: 'center',
+                  fontWeight: isArabic ? '700' : '600',
+                }}
+                variant="titleMedium"
+              >
+                {topics[item.value]}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ))}
       </ScrollView>
     </View>
   );
@@ -90,22 +69,25 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
 
 const styles = StyleSheet.create({
   container: { backgroundColor: appStyles.containerBackground, height: '100%' },
-  cardContainer: {
-    overflow: 'scroll',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 12,
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
     padding: 16,
   },
-  cardContent: {
-    gap: 16,
-    display: 'flex',
+  gridItem: {
+    padding:20,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    width: 250,
+    marginBottom: 16,
     alignItems: 'center',
   },
-  card: {
-    shadowOpacity: 0,
-    backgroundColor: 'white',
-    display: 'flex',
+  imageContainer: {
+    marginLeft: 20,
+    width: 200,
+    height: 200,
+    marginBottom: 8,
   },
   text: {
     color: appStyles.default,
@@ -113,6 +95,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexShrink: 1,
   },
-});
+}); 
 
 export default Topics;

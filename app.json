@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Refugee Speak",
-    "slug": "language-app",
+    "slug": "refugees-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-icons/icon.png",
@@ -23,15 +23,20 @@
         "foregroundImage": "./assets/app-icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ieronim.languageapp"
+      "package": "com.ieronim.languageapp",
+      "compileSdkVersion": 34,
+      "targetSdkVersion": 34,
+      "buildToolsVersion": "34.0.0",
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "a0c93fb0-e96b-4831-bd8a-f4685b11abb5"
+        "projectId": "e45a0489-fab1-496a-a257-8665b20ec94e"
       }
-    }
+    },
+    "owner": "lm0x86"
   }
 }
