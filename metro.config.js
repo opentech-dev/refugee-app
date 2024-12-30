@@ -1,32 +1,27 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { getDefaultConfig } = require('metro-config');
-const path = require('path');
-
-const extraNodeModules = {
-  assets: path.resolve(__dirname, 'assets'),
-  expressions: path.resolve(__dirname, 'assets/expressions'),
-  topics: path.resolve(__dirname, 'assets/topics'),
-  audio: path.resolve(__dirname, 'assets/audio'),
-};
+const { getDefaultConfig } = require("expo/metro-config");
 
 module.exports = (async () => {
   const {
     resolver: { sourceExts, assetExts },
-  } = await getDefaultConfig();
+  } = await getDefaultConfig(__dirname);
 
-  return {
+  const config = {
     transformer: {
-      babelTransformerPath: require.resolve('react-native-svg-transformer'),
-    },
-    resolver: {
-      assetExts: assetExts.filter((ext) => ext !== 'svg'),
-      sourceExts: [...sourceExts, 'svg'],
-      extraNodeModules: new Proxy(extraNodeModules, {
-        get: (target, name) =>
-          name in target
-            ? target[name]
-            : path.join(process.cwd(), `node_modules/${name}`),
+      babelTransformerPath: require.resolve("react-native-svg-transformer"),
+      getTransformOptions: async () => ({
+        transform: {
+          experimentalImportSupport: false,
+          inlineRequires: true,
+        },
       }),
     },
+    resolver: {
+      assetExts: assetExts.filter((ext) => ext !== "svg"), // Remove SVG from asset extensions
+      sourceExts: [...sourceExts, "svg"], // Add SVG to source extensions
+    },
   };
+
+  console.log("CONFIG", config)
+  
+  return config;
 })();
