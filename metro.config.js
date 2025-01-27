@@ -1,27 +1,53 @@
-const { getDefaultConfig } = require("expo/metro-config");
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 
-module.exports = (async () => {
-  const {
-    resolver: { sourceExts, assetExts },
-  } = await getDefaultConfig(__dirname);
+// Base Metro configuration
+const config = getDefaultConfig(__dirname);
 
-  const config = {
-    transformer: {
-      babelTransformerPath: require.resolve("react-native-svg-transformer"),
-      getTransformOptions: async () => ({
-        transform: {
-          experimentalImportSupport: false,
-          inlineRequires: true,
-        },
-      }),
-    },
-    resolver: {
-      assetExts: assetExts.filter((ext) => ext !== "svg"), // Remove SVG from asset extensions
-      sourceExts: [...sourceExts, "svg"], // Add SVG to source extensions
-    },
-  };
+// Add support for SVGs using react-native-svg-transformer
+config.transformer = {
+  ...config.transformer,
+  babelTransformerPath: require.resolve('react-native-svg-transformer'),
+};
 
-  console.log("CONFIG", config)
-  
-  return config;
-})();
+// Extend supported file extensions
+config.resolver.assetExts = config.resolver.assetExts.filter(
+  (ext) => ext !== 'svg',
+);
+config.resolver.sourceExts = [
+  ...config.resolver.sourceExts,
+  'svg',
+  'cjs',
+  'mjs',
+  'jsx',
+  'ts',
+  'tsx',
+];
+
+// Add support for aliases
+config.resolver.alias = {
+  '@components': path.resolve(__dirname, 'src/components'),
+  '@screens': path.resolve(__dirname, 'src/screens'),
+  '@assets': path.resolve(__dirname, 'assets'),
+};
+
+// Enable inline requires for faster load times
+config.transformer.inlineRequires = true;
+
+// Optimize build for performance
+config.transformer.minifierConfig = {
+  mangle: {
+    toplevel: true,
+  },
+  keep_classnames: false,
+  keep_fnames: false,
+  output: {
+    comments: false,
+  },
+  compress: {
+    drop_console: true,
+    passes: 2,
+  },
+};
+
+module.exports = config;

@@ -6,14 +6,13 @@
     "orientation": "portrait",
     "icon": "./assets/app-icons/icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/app-icons/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "./assets/**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ieronim.languageapp"
@@ -24,9 +23,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.ieronim.languageapp",
-      "compileSdkVersion": 34,
-      "targetSdkVersion": 34,
-      "buildToolsVersion": "34.0.0",
       "versionCode": 3
     },
     "web": {
@@ -37,6 +33,7 @@
         "projectId": "e45a0489-fab1-496a-a257-8665b20ec94e"
       }
     },
-    "owner": "lm0x86"
+    "owner": "lm0x86",
+    "plugins": ["expo-asset"]
   }
 }

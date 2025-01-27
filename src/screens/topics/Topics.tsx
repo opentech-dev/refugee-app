@@ -11,6 +11,7 @@ import { ScreenProps } from '../../navigator/types';
 import { LanguageContext } from '../../providers/LanguageContext';
 import { TopicContext } from '../../providers/TopicContext';
 import { TopicKey, TopicsType } from '../../types';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 const shouldFlipIcon = (value: TopicKey) => {
   return ['purchases', 'healthcare', 'transportation'].includes(value);
@@ -40,35 +41,40 @@ const Topics = ({ navigation }: ScreenProps<'Topics'>) => {
 
   if (!topics) return <FullScreenLoader />;
   return (
-    <View style={styles.container}>
-      <StatusBar style="light" />
-      <ScrollView contentContainerStyle={styles.gridContainer}>
-        {topicItems.map((item) => (
-          <View key={item.value} style={styles.gridItem}>
-            <TouchableOpacity onPress={() => handleSelectTopic(item.value)}>
-              <View style={styles.imageContainer}>
-                {item.icon}
-              </View>
-              <Text
-                style={{
-                  ...styles.text,
-                  textAlign: 'center',
-                  fontWeight: isArabic ? '700' : '600',
-                }}
-                variant="titleMedium"
-              >
-                {topics[item.value]}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="light" />
+        <ScrollView contentContainerStyle={styles.gridContainer}>
+          {topicItems.map((item) => (
+            <View key={item.value} style={styles.gridItem}>
+              <TouchableOpacity onPress={() => handleSelectTopic(item.value)}>
+                <View style={styles.imageContainer}>
+                  {item.icon || <Text>Icon missing</Text>}
+                </View>
+                <Text
+                  style={{
+                    ...styles.text,
+                    textAlign: 'center',
+                    fontWeight: isArabic ? '700' : '600',
+                  }}
+                  variant="titleMedium"
+                >
+                  {topics[item.value]}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: appStyles.containerBackground, height: '100%' },
+  container: {
+    backgroundColor: appStyles.containerBackground,
+    height: '100%',
+  },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   gridItem: {
-    padding:20,
+    padding: 20,
     backgroundColor: '#fff',
     borderRadius: 15,
     width: 250,
@@ -95,6 +101,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexShrink: 1,
   },
-}); 
+});
 
 export default Topics;
